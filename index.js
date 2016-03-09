@@ -23,20 +23,17 @@ module.exports = {
     app.import(path.join(app.bowerDirectory, 'video.js/dist/font/VideoJS.ttf'), { destDir: 'assets/font' });
     app.import(path.join(app.bowerDirectory, 'video.js/dist/font/VideoJS.woff'), { destDir: 'assets/font' });
 
-    app.import('vendor/ivy-videojs/shims.js', {
-      exports: {
-        videojs: ['default']
-      }
-    });
+    if (!process.env.EMBER_CLI_FASTBOOT) {
+      app.import({
+        development: path.join(app.bowerDirectory, 'video.js/dist/video.js'),
+        production:  path.join(app.bowerDirectory, 'video.js/dist/video.min.js')
+      });
 
-    app.import({
-      development: path.join(app.bowerDirectory, 'video.js/dist/video.js'),
-      production:  path.join(app.bowerDirectory, 'video.js/dist/video.min.js')
-    });
+      (options.languages || []).forEach(function(language) {
+        app.import(path.join(app.bowerDirectory, 'video.js/dist/lang/' + language + '.js'));
+      });
+    }
 
-    (options.languages || []).forEach(function(language) {
-      app.import(path.join(app.bowerDirectory, 'video.js/dist/lang/' + language + '.js'));
-    });
 
     app.import(path.join(app.bowerDirectory, 'video.js/dist/video-js.swf'), { destDir: 'assets' });
   }

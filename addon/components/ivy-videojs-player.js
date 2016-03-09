@@ -1,5 +1,6 @@
+/*globals videojs */
+
 import Ember from 'ember';
-import videojs from 'videojs';
 
 /**
  * Renders a `video` element, and applies a video.js player to it. Also
